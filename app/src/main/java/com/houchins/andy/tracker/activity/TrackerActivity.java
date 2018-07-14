@@ -3,7 +3,7 @@ package com.houchins.andy.tracker.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-public class TrackerActivity extends AppCompatActivity {
+public class TrackerActivity extends BaseActivity {
 
     private static final String TAG = "TRACKER";
 

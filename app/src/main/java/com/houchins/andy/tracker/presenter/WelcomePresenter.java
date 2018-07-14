@@ -1,34 +1,29 @@
 package com.houchins.andy.tracker.presenter;
 
-import android.os.Environment;
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.houchins.andy.tracker.ITrackerApplication;
 import com.houchins.andy.tracker.R;
-import com.houchins.andy.tracker.data.ObservationRecord;
-import com.houchins.andy.tracker.dataconverter.CsvConverter;
-import com.houchins.andy.tracker.dataconverter.ObservationConverter;
-import com.houchins.andy.tracker.model.IAppModelListener;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import static android.os.Environment.getExternalStoragePublicDirectory;
+import com.houchins.andy.tracker.model.Observation;
+import com.houchins.andy.tracker.store.IObservationStore;
+import com.houchins.andy.tracker.store.IObservationStoreListener;
 
 /**
  * Presenter for the Welcome screen
  */
 
-public class WelcomePresenter implements IPresenter, IAppModelListener {
-    private ITrackerApplication trackerApplication;
+public class WelcomePresenter implements IPresenter, IObservationStoreListener {
+    private static final String LOG_TAG = "TRACKER";
+    private IObservationStore observationStore;
     private View view;
     private TextView subtitle;
 
-    public WelcomePresenter(ITrackerApplication trackerApplication) {
-        this.trackerApplication = trackerApplication;
+    public WelcomePresenter(IObservationStore observationStore) {
+        this.observationStore = observationStore;
+        this.observationStore.setListener(this);
     }
 
     @Override
@@ -40,61 +35,25 @@ public class WelcomePresenter implements IPresenter, IAppModelListener {
         return view;
     }
 
-    public void init() {
+    public void initialize() {
         subtitle.setText(R.string.subtitle_loading_text);
-        if (trackerApplication != null) {
-            trackerApplication.initializeModel(this);
-        }
+        observationStore.initialize();
     }
 
 
     @Override
-    public void onDataLoaded() {
+    public void onInitialized() {
         subtitle.setText(R.string.subtitle_loading_complete_text);
-        for (ObservationRecord observationRecord : trackerApplication.getModel().getObservationRecords()) {
-            System.out.println("ANDYX-" + observationRecord.getDaysSinceEpoch() + "-" +
-                    ObservationConverter.convert(observationRecord).toString());
+        for (Observation observation : observationStore.getObservations()) {
+            Log.i(LOG_TAG, "RECORD: " + observation.getDate() + " " + observation.toString());
         }
     }
 
-    public void export_data() {
-        if (trackerApplication.getModel().isInitialized()) {
-            File f;
-            String filePrefix = "temp_";
-            String fileExtension = ".csv";
-            int i = 0;
-            String fileName;
-            boolean foundFile = false;
-            boolean created = false;
-            File directory = getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-
-            subtitle.setText(R.string.subtitle_export_complete_text);
-
-            do {
-                i++;
-                fileName = filePrefix + i + fileExtension;
-                f = new File(directory, fileName);
-                if (!f.exists()) {
-                    foundFile = true;
-                    try {
-                        if (f.createNewFile()) {
-                            FileOutputStream fs = new FileOutputStream(f, true);
-                            fs.write(CsvConverter.convertToCsv(trackerApplication.getModel().getObservationRecords()).getBytes());
-                            fs.flush();
-                            fs.close();
-                            created = true;
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } while (!foundFile);
-
-            if (created) {
-                subtitle.setText(R.string.subtitle_export_complete_text);
-            } else {
-                subtitle.setText(R.string.subtitle_export_failed_text);
-            }
-        }
+    /**
+     * export data to file
+     * @param context the application context
+     */
+    public void exportData(Context context) {
+        observationStore.exportData(context);
     }
 }

@@ -1,6 +1,5 @@
 package com.houchins.andy.tracker.model;
 
-import android.content.Context;
 import android.os.Handler;
 
 import com.houchins.andy.tracker.data.AppDatabase;
@@ -13,30 +12,25 @@ import com.raizlabs.android.dbflow.structure.database.transaction.ITransaction;
 import java.util.List;
 
 /**
- * Created by Lisa on 6/16/2018.
+ * Model to hold observation data
  */
 
-public class AppModel {
+public class ObservationModel implements IObservationModel {
     private boolean isInitialized = false;
-    private IAppModelListener listener;
     private List<ObservationRecord> observationRecords;
 
-    public void setListener(IAppModelListener listener) {
-        this.listener = listener;
-    }
-
+    @Override
     public List<ObservationRecord> getObservationRecords() {
         return observationRecords;
     }
 
-    public void init(Context context) {
-        FlowManager.init(context);
-        // TODO: Normally data will be loaded here, but for now we ar estartgin by creating
-        // temporary data for testing the app; remove and uncomment the loadData call
-        //createData();
-        loadData();
+    @Override
+    public void initialize(IObservationModelListener listener) {
+        createData(listener);
+        //loadData(listener);
     }
 
+    @Override
     public boolean isInitialized() {
         return isInitialized;
     }
@@ -44,21 +38,23 @@ public class AppModel {
     /**
      * TEMPORARY: creates some default data asynchronously for testing the app
      */
-    private void createData() {
+    private void createData(final IObservationModelListener listener) {
         FlowManager.getDatabase(AppDatabase.class)
                 .reset();
         FlowManager.getDatabase(AppDatabase.class).executeTransaction(new ITransaction() {
             @Override
             public void execute(DatabaseWrapper databaseWrapper) {
-                createDataSync();
+                createDataSync(listener);
             }
         });
     }
 
     /**
      * TEMPORARY: creates some default data synchronously for testing the app
+     *
+     * @param listener the listener for load data events
      */
-    private void createDataSync() {
+    private void createDataSync(final IObservationModelListener listener) {
         ObservationRecord o;
         for (int i = 0; i < 1000; i++) {
             o = new ObservationRecord();
@@ -67,46 +63,46 @@ public class AppModel {
             o.setTemperature(97.0f + (float) (Math.random() * 2.0));
             o.save();
         }
-//        o = new ObservationRecord();
-//        o.setFlags(Observation.FLAG_CERVIX_FIRM | Observation.FLAG_CERVIX_LOW | Observation.FLAG_CERVIX_CLOSED | Observation.FLAG_MUCUS_DRY);
-//        o.setDaysSinceEpoch(DateHelper.getDays(1981, 7, 31));
-//        o.setTemperature(98.6f);
-//        o.save();
-
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                onDataCreated();
+                onDataCreated(listener);
             }
         });
     }
 
     /**
      * TEMPORARY: triggers loading of data after the creation of the test data
+     *
+     * @param listener the listener for load data events
      */
-    private void onDataCreated() {
-        loadData();
+    private void onDataCreated(IObservationModelListener listener) {
+        loadData(listener);
     }
 
     /**
-     * Loads data asynchronously from the database; when finished, {@link IAppModelListener}
-     * onDataLoaded is called.
+     * Loads data asynchronously from the database; when finished, {@link IObservationModelListener}
+     * onInitialized is called.
+     *
+     * @param listener the listener for load data events
      */
-    private void loadData() {
+    private void loadData(final IObservationModelListener listener) {
 
         FlowManager.getDatabase(AppDatabase.class).executeTransaction(new ITransaction() {
             @Override
             public void execute(DatabaseWrapper databaseWrapper) {
-                loadDataSync();
+                loadDataSync(listener);
             }
         });
     }
 
     /**
-     * Loads data synchronously from the database; Calls {@link IAppModelListener} onDataLoaded on
+     * Loads data synchronously from the database; Calls {@link IObservationModelListener} onInitialized on
      * the main thread.
+     *
+     * @param listener the listener for load data events
      */
-    private void loadDataSync() {
+    private void loadDataSync(final IObservationModelListener listener) {
         observationRecords = SQLite.select()
                 .from(ObservationRecord.class)
                 .queryList();
@@ -115,10 +111,19 @@ public class AppModel {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                if (listener != null) {
-                    listener.onDataLoaded();
-                }
+                notifyDataLoaded(listener);
             }
         });
+    }
+
+    /**
+     * Notifies the listener that data has been loaded
+     *
+     * @param listener the listener
+     */
+    private void notifyDataLoaded(IObservationModelListener listener) {
+        if (listener != null) {
+            listener.onInitialized();
+        }
     }
 }

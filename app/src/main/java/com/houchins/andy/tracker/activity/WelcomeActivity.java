@@ -1,12 +1,10 @@
 package com.houchins.andy.tracker.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.houchins.andy.tracker.ITrackerApplication;
 import com.houchins.andy.tracker.R;
 import com.houchins.andy.tracker.presenter.WelcomePresenter;
 
@@ -14,16 +12,16 @@ import com.houchins.andy.tracker.presenter.WelcomePresenter;
  * Initial activity
  */
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends BaseActivity {
 
     private WelcomePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new WelcomePresenter((ITrackerApplication) getApplication());
+        presenter = new WelcomePresenter(getStoreProvider().getObservationStore());
         setContentView(presenter.getView(getLayoutInflater()));
-        presenter.init();
+        presenter.initialize();
     }
 
     @Override
@@ -37,7 +35,7 @@ public class WelcomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.export_data:
-                presenter.export_data();
+                presenter.exportData(getApplicationContext());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
