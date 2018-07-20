@@ -21,11 +21,12 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:id="@+id/start_button"
+        android:id="@+id/welcome_start_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/welcome_subtitle"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/default_spacing"
-        android:text="Start" />
+        android:text="@string/welcome_start_button_text"
+        android:onClick="onClick"/>
 </RelativeLayout>

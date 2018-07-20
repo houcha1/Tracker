@@ -26,8 +26,8 @@ public class ObservationModel implements IObservationModel {
 
     @Override
     public void initialize(IObservationModelListener listener) {
-        createData(listener);
-        //loadData(listener);
+        //createData(listener);
+        loadData(listener);
     }
 
     @Override
