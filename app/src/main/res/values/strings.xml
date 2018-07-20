@@ -1,13 +1,19 @@
 <resources>
+
+    <!-- App -->
+    <string name="app_name">Tracker</string>
+
     <!-- Menu -->
     <string name="export_data_menu_item">Export data</string>
 
-    <!-- Welcome -->
-    <string name="app_name">Tracker</string>
+    <!-- Welcome Activity -->
     <string name="welcome_title_text">Welcome</string>
     <string name="subtitle_loading_text">Loading…</string>
     <string name="subtitle_loading_complete_text">Ready!</string>
     <string name="subtitle_export_text">Exporting data…</string>
     <string name="subtitle_export_complete_text">Export finished!</string>
     <string name="subtitle_export_failed_text">Export failed!</string>
+    <string name="welcome_start_button_text">Start</string>
+
+    <!-- Tracker Activity -->
 </resources>

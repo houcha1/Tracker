@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.houchins.andy.tracker.R;
 import com.houchins.andy.tracker.presenter.WelcomePresenter;
@@ -20,7 +21,7 @@ public class WelcomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter = new WelcomePresenter(getStoreProvider().getObservationStore());
-        setContentView(presenter.getView(getLayoutInflater()));
+        setContentView(presenter.getView(getLayoutInflater(), this));
         presenter.initialize();
     }
 
@@ -39,6 +40,16 @@ public class WelcomeActivity extends BaseActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.welcome_start_button:
+                presenter.startTracker(this);
+                break;
+            default:
+                break;
         }
     }
 }

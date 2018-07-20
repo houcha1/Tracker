@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LineGraphSegmentView">
+        <attr name="lineColor" format="color" />
+        <attr name="lineWidth" format="dimension" />
+        <attr name="circleRadius" format="dimension" />
+        <attr name="shadowColor" format="color" />
+        <attr name="shadowWidth" format="dimension" />
+        <attr name="shadowOffsetX" format="dimension" />
+        <attr name="shadowOffsetY" format="dimension" />
+        <attr name="segmentStart" format="float"/>
+        <attr name="segmentMiddle" format="float"/>
+        <attr name="segmentEnd" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="ObservationView">
+        <attr name="showTemperature" format="boolean" />
+        <attr name="showCervix" format="boolean" />
+        <attr name="showMucus" format="boolean" />
+    </declare-styleable>
+</resources>

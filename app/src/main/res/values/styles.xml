@@ -19,5 +19,30 @@
         <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
+    <style name="AppBodyText">
+        <item name="android:textSize">@dimen/body_text_size</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="AppSmallText">
+        <item name="android:textSize">@dimen/small_text_size</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="AppObservationText" parent="AppBodyText">
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- alignment styles -->
+    <style name="AppObservation" parent="AppObservationText">
+        <item name="android:layout_width">@dimen/observation_width</item>
+        <item name="android:layout_height">@dimen/observation_height</item>
+        <item name="android:layout_weight">@dimen/observation_weight</item>
+    </style>
+
+    <style name="AppObservationView">
+        <item name="android:layout_width">@dimen/observation_width</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
 
 </resources>

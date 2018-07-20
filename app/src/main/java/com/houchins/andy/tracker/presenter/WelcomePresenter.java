@@ -1,12 +1,15 @@
 package com.houchins.andy.tracker.presenter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
 import com.houchins.andy.tracker.R;
+import com.houchins.andy.tracker.activity.TrackerActivity;
 import com.houchins.andy.tracker.model.Observation;
 import com.houchins.andy.tracker.store.IObservationStore;
 import com.houchins.andy.tracker.store.IObservationStoreListener;
@@ -27,10 +30,10 @@ public class WelcomePresenter implements IPresenter, IObservationStoreListener {
     }
 
     @Override
-    public View getView(LayoutInflater inflater) {
+    public View getView(LayoutInflater inflater, Context context) {
         if (view == null) {
             view = inflater.inflate(R.layout.welcome, null);
-            subtitle = (TextView) view.findViewById(R.id.welcome_subtitle);
+            subtitle = view.findViewById(R.id.welcome_subtitle);
         }
         return view;
     }
@@ -55,5 +58,9 @@ public class WelcomePresenter implements IPresenter, IObservationStoreListener {
      */
     public void exportData(Context context) {
         observationStore.exportData(context);
+    }
+
+    public void startTracker(Activity activity) {
+        activity.startActivity(new Intent(activity, TrackerActivity.class));
     }
 }
