@@ -93,29 +93,29 @@ public class ObservationAdapter extends RecyclerView.Adapter<ObservationAdapter.
         if (position == selectedPosition) {
             view.setGraphColor(R.color.colorGridLine, R.color.colorAccent,
                     R.color.colorAccentLevel2, R.color.colorAccentLevel1);
-            view.setCervixFirmnessColor(ObservationViewFormatter.getSelectedColorId(observation.getCervixFirmness()),
+            view.setCervixTextureColor(ObservationViewFormatter.getSelectedColorId(observation.getCervixTexture()),
                     R.color.colorAccentDark);
             view.setCervixHeightColor(ObservationViewFormatter.getSelectedColorId(observation.getCervixHeight()),
                     R.color.colorAccentDark);
-            view.setCervixOpennessColor(ObservationViewFormatter.getSelectedColorId(observation.getCervixOpenness()),
+            view.setCervixShapeColor(ObservationViewFormatter.getSelectedColorId(observation.getCervixShape()),
                     R.color.colorAccentDark);
             view.setMucusColor(ObservationViewFormatter.getSelectedColorId(observation.getMucus()),
                     R.color.colorAccentDark);
         } else {
             view.setGraphColor(R.color.colorGridLine, R.color.colorPrimaryDark,
                     R.color.colorShadow, R.color.colorBackground);
-            view.setCervixFirmnessColor(ObservationViewFormatter.getColorId(observation.getCervixFirmness()),
+            view.setCervixTextureColor(ObservationViewFormatter.getColorId(observation.getCervixTexture()),
                     R.color.colorPrimaryDark);
             view.setCervixHeightColor(ObservationViewFormatter.getColorId(observation.getCervixHeight()),
                     R.color.colorPrimaryDark);
-            view.setCervixOpennessColor(ObservationViewFormatter.getColorId(observation.getCervixOpenness()),
+            view.setCervixShapeColor(ObservationViewFormatter.getColorId(observation.getCervixShape()),
                     R.color.colorPrimaryDark);
             view.setMucusColor(ObservationViewFormatter.getColorId(observation.getMucus()),
                     R.color.colorPrimaryDark);
         }
-        view.setCervixFirmnessText(ObservationViewFormatter.getTextId(observation.getCervixFirmness()));
+        view.setCervixTextureText(ObservationViewFormatter.getTextId(observation.getCervixTexture()));
         view.setCervixHeightText(ObservationViewFormatter.getTextId(observation.getCervixHeight()));
-        view.setCervixOpennessText(ObservationViewFormatter.getTextId(observation.getCervixOpenness()));
+        view.setCervixShapeText(ObservationViewFormatter.getTextId(observation.getCervixShape()));
         view.setMucusText(ObservationViewFormatter.getTextId(observation.getMucus()));
     }
 

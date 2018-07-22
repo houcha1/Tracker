@@ -6,7 +6,7 @@ import com.houchins.andy.tracker.presenter.TrackerPresenter;
 
 public class TrackerActivity extends BaseActivity {
 
-    private static final String TAG = "TRACKER";
+    private static final String TAG = "TrackerActivity";
 
     private TrackerPresenter presenter;
 

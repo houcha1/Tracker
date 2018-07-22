@@ -30,9 +30,9 @@ public class ObservationView extends FrameLayout {
     private List<View> mucusContainers = new ArrayList<>();
     private List<View> gridViews = new ArrayList<>();
     private TextView temperatureView;
-    private TextView cervixFirmnessView;
+    private TextView CervixTextureView;
     private TextView cervixHeightView;
-    private TextView cervixOpennessView;
+    private TextView CervixShapeView;
     private TextView mucusView;
 
     public ObservationView(@NonNull Context context) {
@@ -60,7 +60,7 @@ public class ObservationView extends FrameLayout {
     }
 
     private void init() {
-        inflate(getContext(), R.layout.observation_data, this);
+        inflate(getContext(), R.layout.observation_view, this);
         gridViews.add(findViewById(R.id.observation_root));
         temperatureGraph = findViewById(R.id.temperature_graph);
         temperatureContainers.add(findViewById(R.id.temperature_graph_container));
@@ -70,9 +70,9 @@ public class ObservationView extends FrameLayout {
         cervixContainers.add(findViewById(R.id.cervix_openness_container));
         mucusContainers.add(findViewById(R.id.mucus_container));
         temperatureView = findViewById(R.id.temperature);
-        cervixFirmnessView = findViewById(R.id.cervix_firmness);
+        CervixTextureView = findViewById(R.id.cervix_firmness);
         cervixHeightView = findViewById(R.id.cervix_height);
-        cervixOpennessView = findViewById(R.id.cervix_openness);
+        CervixShapeView = findViewById(R.id.cervix_openness);
         mucusView = findViewById(R.id.mucus);
 
         previousTemperature = DEFAULT_TEMPERATURE;
@@ -106,25 +106,25 @@ public class ObservationView extends FrameLayout {
         updateTemperatureGraph();
     }
 
-    public void setCervixFirmnessText(int resourceId) {
-        cervixFirmnessView.setText(resourceId);
+    public void setCervixTextureText(int resourceId) {
+        CervixTextureView.setText(resourceId);
     }
 
     public void setCervixHeightText(int resourceId) {
         cervixHeightView.setText(resourceId);
     }
 
-    public void setCervixOpennessText(int resourceId) {
-        cervixOpennessView.setText(resourceId);
+    public void setCervixShapeText(int resourceId) {
+        CervixShapeView.setText(resourceId);
     }
 
     public void setMucusText(int resourceId) {
         mucusView.setText(resourceId);
     }
 
-    public void setCervixFirmnessColor(int backgroundResourceId, int foregroundResourceId) {
-        cervixFirmnessView.setBackgroundColor(getResources().getColor(backgroundResourceId));
-        cervixFirmnessView.setTextColor(getResources().getColor(foregroundResourceId));
+    public void setCervixTextureColor(int backgroundResourceId, int foregroundResourceId) {
+        CervixTextureView.setBackgroundColor(getResources().getColor(backgroundResourceId));
+        CervixTextureView.setTextColor(getResources().getColor(foregroundResourceId));
     }
 
     public void setCervixHeightColor(int backgroundResourceId, int foregroundResourceId) {
@@ -132,9 +132,9 @@ public class ObservationView extends FrameLayout {
         cervixHeightView.setTextColor(getResources().getColor(foregroundResourceId));
     }
 
-    public void setCervixOpennessColor(int backgroundResourceId, int foregroundResourceId) {
-        cervixOpennessView.setBackgroundColor(getResources().getColor(backgroundResourceId));
-        cervixOpennessView.setTextColor(getResources().getColor(foregroundResourceId));
+    public void setCervixShapeColor(int backgroundResourceId, int foregroundResourceId) {
+        CervixShapeView.setBackgroundColor(getResources().getColor(backgroundResourceId));
+        CervixShapeView.setTextColor(getResources().getColor(foregroundResourceId));
     }
 
     public void setMucusColor(int backgroundResourceId, int foregroundResourceId) {

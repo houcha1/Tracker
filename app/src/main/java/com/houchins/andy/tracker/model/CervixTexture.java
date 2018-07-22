@@ -4,7 +4,7 @@ package com.houchins.andy.tracker.model;
  * Represents a recorded cervix firmness.
  */
 
-public enum CervixFirmness {
+public enum CervixTexture {
     NONE,
     FIRM,
     MEDIUM,

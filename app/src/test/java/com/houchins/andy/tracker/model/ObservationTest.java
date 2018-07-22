@@ -13,12 +13,12 @@ import static org.junit.Assert.assertEquals;
 public class ObservationTest {
 
     @Test
-    public void testCervixFirmness() {
+    public void testCervixTexture() {
         Observation observation = new Observation();
-        for (CervixFirmness value : CervixFirmness.values()) {
+        for (CervixTexture value : CervixTexture.values()) {
             observation.reset();
-            observation.setCervixFirmness(value);
-            assertEquals(value, observation.getCervixFirmness());
+            observation.setCervixTexture(value);
+            assertEquals(value, observation.getCervixTexture());
         }
     }
 
@@ -33,12 +33,12 @@ public class ObservationTest {
     }
 
     @Test
-    public void testCervixOpenness() {
+    public void testCervixShape() {
         Observation observation = new Observation();
-        for (CervixOpenness value : CervixOpenness.values()) {
+        for (CervixShape value : CervixShape.values()) {
             observation.reset();
-            observation.setCervixOpenness(value);
-            assertEquals(value, observation.getCervixOpenness());
+            observation.setCervixShape(value);
+            assertEquals(value, observation.getCervixShape());
         }
     }
 

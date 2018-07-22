@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:id="@+id/temperature_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:id="@+id/temperature_label"
+            style="@style/AppLabelText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Temperature" />
+
+        <EditText
+            android:id="@+id/temperature_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/temperature_label"
+            android:layout_centerHorizontal="true"
+            android:ems="4"
+            android:inputType="numberDecimal" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/cervix_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/temperature_container"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/default_spacing">
+
+        <TextView
+            android:id="@+id/cervix_label"
+            style="@style/AppLabelText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Cervix" />
+
+        <LinearLayout
+            android:id="@+id/cervix_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cervix_label"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/mucus_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cervix_container"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/default_spacing">
+
+        <TextView
+            android:id="@+id/mucus_label"
+            style="@style/AppLabelText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Mucus" />
+
+        <LinearLayout
+            android:id="@+id/mucus_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mucus_label"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+            <ToggleButton
+                android:id="@+id/mucus_dry"
+                android:layout_width="@dimen/edit_observation_width"
+                android:layout_height="@dimen/edit_observation_height"
+                android:background="@drawable/edit_observation_background"
+                android:onClick="onClick"
+                android:text="@string/mucus_dry"
+                android:textColor="@color/edit_observation_text"
+                android:textOff="@string/mucus_dry"
+                android:textOn="@string/mucus_dry" />
+
+            <ToggleButton
+                android:id="@+id/mucus_m"
+                android:layout_width="@dimen/edit_observation_width"
+                android:layout_height="@dimen/edit_observation_height"
+                android:background="@drawable/edit_observation_background"
+                android:onClick="onClick"
+                android:text="@string/mucus_m"
+                android:textColor="@color/edit_observation_text"
+                android:textOff="@string/mucus_m"
+                android:textOn="@string/mucus_m" />
+
+            <ToggleButton
+                android:id="@+id/mucus_ewm"
+                android:layout_width="@dimen/edit_observation_width"
+                android:layout_height="@dimen/edit_observation_height"
+                android:background="@drawable/edit_observation_background"
+                android:onClick="onClick"
+                android:text="@string/mucus_ewm"
+                android:textColor="@color/edit_observation_text"
+                android:textOff="@string/mucus_ewm"
+                android:textOn="@string/mucus_ewm" />
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

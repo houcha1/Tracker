@@ -19,7 +19,7 @@ public class Observation {
     public static final int FLAG_CERVIX_HIGH_LOW = 0x0000000C;
     public static final int FLAG_CERVIX_LOW = 0x00000008;
 
-    public static final int FLAG_CERVIX_OPENNESS_MASK = 0x00000030;
+    public static final int FLAG_CERVIX_SHAPE_MASK = 0x00000030;
     public static final int FLAG_CERVIX_OPEN = 0x00000010;
     public static final int FLAG_CERVIX_OPEN_CLOSED = 0x00000030;
     public static final int FLAG_CERVIX_CLOSED = 0x00000020;
@@ -109,50 +109,50 @@ public class Observation {
         return cervixHeight;
     }
 
-    public void setCervixFirmness(CervixFirmness cervixFirmness) {
-        setFlags((getFlags() & ~FLAG_CERVIX_FIRMNESS_MASK) | getFlags(cervixFirmness));
+    public void setCervixTexture(CervixTexture cervixTexture) {
+        setFlags((getFlags() & ~FLAG_CERVIX_FIRMNESS_MASK) | getFlags(cervixTexture));
     }
 
-    public CervixFirmness getCervixFirmness() {
-        CervixFirmness cervixFirmness;
+    public CervixTexture getCervixTexture() {
+        CervixTexture cervixTexture;
         switch (getFlags() & FLAG_CERVIX_FIRMNESS_MASK) {
             case FLAG_CERVIX_FIRM:
-                cervixFirmness = CervixFirmness.FIRM;
+                cervixTexture = CervixTexture.FIRM;
                 break;
             case FLAG_CERVIX_FIRM_SOFT:
-                cervixFirmness = CervixFirmness.MEDIUM;
+                cervixTexture = CervixTexture.MEDIUM;
                 break;
             case FLAG_CERVIX_SOFT:
-                cervixFirmness = CervixFirmness.SOFT;
+                cervixTexture = CervixTexture.SOFT;
                 break;
             default:
-                cervixFirmness = CervixFirmness.NONE;
+                cervixTexture = CervixTexture.NONE;
                 break;
         }
-        return cervixFirmness;
+        return cervixTexture;
     }
 
-    public void setCervixOpenness(CervixOpenness cervixOpenness) {
-        setFlags((getFlags() & ~FLAG_CERVIX_OPENNESS_MASK) | getFlags(cervixOpenness));
+    public void setCervixShape(CervixShape cervixShape) {
+        setFlags((getFlags() & ~FLAG_CERVIX_SHAPE_MASK) | getFlags(cervixShape));
     }
 
-    public CervixOpenness getCervixOpenness() {
-        CervixOpenness cervixOpenness;
-        switch (getFlags() & FLAG_CERVIX_OPENNESS_MASK) {
+    public CervixShape getCervixShape() {
+        CervixShape cervixShape;
+        switch (getFlags() & FLAG_CERVIX_SHAPE_MASK) {
             case FLAG_CERVIX_OPEN:
-                cervixOpenness = CervixOpenness.OPEN;
+                cervixShape = CervixShape.OPEN;
                 break;
             case FLAG_CERVIX_OPEN_CLOSED:
-                cervixOpenness = CervixOpenness.MEDIUM;
+                cervixShape = CervixShape.MEDIUM;
                 break;
             case FLAG_CERVIX_CLOSED:
-                cervixOpenness = CervixOpenness.CLOSED;
+                cervixShape = CervixShape.CLOSED;
                 break;
             default:
-                cervixOpenness = CervixOpenness.NONE;
+                cervixShape = CervixShape.NONE;
                 break;
         }
-        return cervixOpenness;
+        return cervixShape;
     }
 
     public void setMucus(Mucus mucus) {
@@ -218,7 +218,7 @@ public class Observation {
     public String toString() {
         SimpleDateFormat f = new SimpleDateFormat("YYYY-MM-dd");
         return "(" + f.format(date) + ", " + temperature.toString() +
-                ", " + getCervixFirmness() + ", " + getCervixHeight() + ", " + getCervixOpenness() +
+                ", " + getCervixTexture() + ", " + getCervixHeight() + ", " + getCervixShape() +
                 ", " + getMucus() + ", " + getFlow() + ")";
     }
 
@@ -242,9 +242,9 @@ public class Observation {
         return flags;
     }
 
-    private int getFlags(CervixFirmness cervixFirmness) {
+    private int getFlags(CervixTexture cervixTexture) {
         int flags;
-        switch (cervixFirmness) {
+        switch (cervixTexture) {
             case FIRM:
                 flags = FLAG_CERVIX_FIRM;
                 break;
@@ -262,9 +262,9 @@ public class Observation {
         return flags;
     }
 
-    private int getFlags(CervixOpenness cervixOpenness) {
+    private int getFlags(CervixShape cervixShape) {
         int flags;
-        switch (cervixOpenness) {
+        switch (cervixShape) {
             case OPEN:
                 flags = FLAG_CERVIX_OPEN;
                 break;

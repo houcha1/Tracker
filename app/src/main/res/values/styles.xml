@@ -19,6 +19,11 @@
         <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
+    <style name="AppLabelText">
+        <item name="android:textSize">@dimen/label_text_size</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+
     <style name="AppBodyText">
         <item name="android:textSize">@dimen/body_text_size</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
@@ -37,8 +42,15 @@
     <style name="AppObservation" parent="AppObservationText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/observation_height</item>
-        <item name="android:layout_weight">@dimen/observation_weight</item>
         <item name="android:background">@color/colorTransparent</item>
+    </style>
+
+    <style name="AppEditObservation">
+        <item name="android:layout_height">@dimen/edit_observation_height</item>
+        <item name="android:layout_width">@dimen/edit_observation_width</item>
+        <item name="android:textSize">@dimen/body_text_size</item>
+        <item name="android:textColor">@color/edit_observation_text</item>
+        <item name="background">@drawable/edit_observation_background</item>
     </style>
 
     <style name="AppObservationView">

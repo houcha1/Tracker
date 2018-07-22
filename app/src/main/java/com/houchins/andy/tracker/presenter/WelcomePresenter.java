@@ -19,7 +19,7 @@ import com.houchins.andy.tracker.store.IObservationStoreListener;
  */
 
 public class WelcomePresenter implements IPresenter, IObservationStoreListener {
-    private static final String LOG_TAG = "TRACKER";
+    private static final String LOG_TAG = "WelcomePresenter";
     private IObservationStore observationStore;
     private View view;
     private TextView subtitle;
@@ -32,7 +32,7 @@ public class WelcomePresenter implements IPresenter, IObservationStoreListener {
     @Override
     public View getView(LayoutInflater inflater, Context context) {
         if (view == null) {
-            view = inflater.inflate(R.layout.welcome, null);
+            view = inflater.inflate(R.layout.welcome_activity, null);
             subtitle = view.findViewById(R.id.welcome_subtitle);
         }
         return view;

@@ -1,6 +1,8 @@
 package com.houchins.andy.tracker.presenter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -8,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.houchins.andy.tracker.R;
+import com.houchins.andy.tracker.activity.EditObservationActivity;
 import com.houchins.andy.tracker.model.Observation;
 import com.houchins.andy.tracker.store.IObservationStore;
 import com.houchins.andy.tracker.view.ObservationAdapter;
@@ -28,8 +31,7 @@ public class TrackerPresenter implements IPresenter, OnItemSelectedListener {
     @Override
     public View getView(LayoutInflater inflater, Context context) {
         if (view == null) {
-            view = inflater.inflate(R.layout.activity_tracker, null);
-            recyclerView = view.findViewById(R.id.tracker_recycler_view);
+            view = inflater.inflate(R.layout.tracker_activity, null);
             initialize(context);
         }
         return view;
@@ -37,10 +39,11 @@ public class TrackerPresenter implements IPresenter, OnItemSelectedListener {
 
     @Override
     public void onItemSelected(int position, Object item) {
-        beginEdit((Observation) item);
+        startEdit(position);
     }
 
     private void initialize(Context context) {
+        recyclerView = view.findViewById(R.id.tracker_recycler_view);
         adapter = new ObservationAdapter(observationStore.getObservations(), true, true, true);
         adapter.setOnItemSelectedListener(this);
         recyclerView.setAdapter(adapter);
@@ -48,11 +51,15 @@ public class TrackerPresenter implements IPresenter, OnItemSelectedListener {
                 context, LinearLayoutManager.HORIZONTAL, false));
     }
 
-    private void beginEdit(Observation observation) {
+    private void startEdit(int position) {
         if (!editInProgress) {
-            Log.d(LOG_TAG, "Start Edit Observation: " + observation);
+            Log.d(LOG_TAG, "Start Edit Observation: " + position);
             editInProgress = true;
-            // TODO: start edit and listen for completion
+            Activity activity = (Activity) view.getContext();
+            Intent intent = new Intent(activity, EditObservationActivity.class);
+            intent.putExtra(EditObservationActivity.INTENT_OBSERVATION, position);
+            activity.startActivity(intent);
+            // TODO: add observation to the intent
         }
     }
 }

@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 public class ObservationStore implements IObservationStore, IObservationModelListener {
-    private static final String LOG_TAG = "TRACKER";
+    private static final String LOG_TAG = "ObservationStore";
 
     private IObservationModel observationModel;
     private IObservationStoreListener listener;
