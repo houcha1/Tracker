@@ -35,9 +35,10 @@
 
     <!-- alignment styles -->
     <style name="AppObservation" parent="AppObservationText">
-        <item name="android:layout_width">@dimen/observation_width</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/observation_height</item>
         <item name="android:layout_weight">@dimen/observation_weight</item>
+        <item name="android:background">@color/colorTransparent</item>
     </style>
 
     <style name="AppObservationView">

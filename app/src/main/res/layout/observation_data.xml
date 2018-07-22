@@ -1,44 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:gravity="center"
+    android:id="@+id/observation_root"
+    android:layout_width="@dimen/observation_width"
+    android:layout_height="match_parent"
+    android:background="@color/colorGridLine"
     android:orientation="vertical">
 
-    <com.houchins.andy.tracker.view.LineGraphSegmentView
-        android:id="@+id/temperature_graph"
+    <FrameLayout
+        android:id="@+id/temperature_graph_container"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:segmentEnd="0.7"
-        app:segmentMiddle="0.4"
-        app:segmentStart="0.3" />
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-    <TextView
-        android:id="@+id/cervix_firmness"
-        style="@style/AppObservation"
+        <com.houchins.andy.tracker.view.TemperatureGraphSegmentView
+            android:id="@+id/temperature_graph"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/temperature_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="F" />
+        android:layout_margin="@dimen/half_grid_line_width">
 
-    <TextView
-        android:id="@+id/cervix_height"
-        style="@style/AppObservation"
+        <TextView
+            android:id="@+id/temperature"
+            style="@style/AppObservation"
+            android:text="@string/observation_none"
+            android:textSize="@dimen/small_text_size" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/cervix_firmness_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="L" />
+        android:layout_margin="@dimen/half_grid_line_width">
 
-    <TextView
-        android:id="@+id/cervix_openness"
-        style="@style/AppObservation"
+        <TextView
+            android:id="@+id/cervix_firmness"
+            style="@style/AppObservation"
+            android:text="@string/observation_none" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/cervix_height_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="C" />
+        android:layout_margin="@dimen/half_grid_line_width">
 
-    <TextView
-        android:id="@+id/mucus"
-        style="@style/AppObservation"
+        <TextView
+            android:id="@+id/cervix_height"
+            style="@style/AppObservation"
+            android:text="@string/observation_none" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/cervix_openness_container"
         android:layout_width="match_parent"
-        android:text="Ø" />
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/half_grid_line_width">
+
+        <TextView
+            android:id="@+id/cervix_openness"
+            style="@style/AppObservation"
+            android:text="@string/observation_none" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/mucus_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/half_grid_line_width">
+
+        <TextView
+            android:id="@+id/mucus"
+            style="@style/AppObservation"
+            android:text="@string/observation_none" />
+    </FrameLayout>
+
 </LinearLayout>

@@ -7,6 +7,6 @@ package com.houchins.andy.tracker.model;
 public enum CervixHeight {
     NONE,
     HIGH,
-    HIGH_LOW,
+    MEDIUM,
     LOW
 }

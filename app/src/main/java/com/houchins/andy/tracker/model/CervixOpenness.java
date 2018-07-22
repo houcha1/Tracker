@@ -7,6 +7,6 @@ package com.houchins.andy.tracker.model;
 public enum CervixOpenness {
     NONE,
     OPEN,
-    OPEN_CLOSED,
+    MEDIUM,
     CLOSED
 }

@@ -1,10 +1,12 @@
 package com.houchins.andy.tracker.view;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.houchins.andy.tracker.R;
 import com.houchins.andy.tracker.model.Observation;
 
 import java.util.List;
@@ -12,26 +14,34 @@ import java.util.List;
 /**
  * Provide views to RecyclerView with data from mDataSet.
  */
-public class ObservationAdapter extends RecyclerView.Adapter<ObservationAdapter.ViewHolder> {
-    private static final String TAG = "ObservationAdapter";
+public class ObservationAdapter extends RecyclerView.Adapter<ObservationAdapter.ViewHolder> implements OnItemSelectedListener {
+    private static final String LOG_TAG = "ObservationAdapter";
 
     private List<Observation> dataSet;
-    private static final double MAXIMUM_TEMPERATURE = 99.0;
-    private static final double MINIMUM_TEMPERATURE = 95.0;
+    private OnItemSelectedListener onItemSelectedListener;
+    private boolean showTemperature;
+    private boolean showCervix;
+    private boolean showMucus;
+    private int selectedPosition = -1;
 
     /**
      * Provide a reference to the type of views that you are using (custom ViewHolder)
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ObservationView view;
+        private final OnItemSelectedListener listener;
 
-        public ViewHolder(View v) {
+        ViewHolder(View v, OnItemSelectedListener listener) {
             super(v);
+            this.listener = listener;
             // Define click listener for the ViewHolder's View.
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "Element " + getAdapterPosition() + " clicked.");
+                    Log.d(LOG_TAG, "Element " + getAdapterPosition() + " clicked.");
+                    if (ViewHolder.this.listener != null) {
+                        ViewHolder.this.listener.onItemSelected(getAdapterPosition(), null);
+                    }
                 }
             });
             view = (ObservationView) v;
@@ -43,36 +53,70 @@ public class ObservationAdapter extends RecyclerView.Adapter<ObservationAdapter.
     }
 
     /**
-     * Initialize the dataset of the Adapter.
+     * Initialize the data set of the Adapter.
      *
-     * @param dataSet the data to populate views to be used by RecyclerView.
+     * @param dataSet         the data to populate views to be used by RecyclerView.
+     * @param showTemperature show temperature graph
+     * @param showCervix      show cervix observations
+     * @param showMucus       show mucus observations
      */
-    public ObservationAdapter(List<Observation> dataSet) {
+    public ObservationAdapter(List<Observation> dataSet, boolean showTemperature, boolean showCervix, boolean showMucus) {
         this.dataSet = dataSet;
+        this.showTemperature = showTemperature;
+        this.showCervix = showCervix;
+        this.showMucus = showMucus;
     }
 
     // Create new views (invoked by the layout manager)
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         // Create a new view.
         View v = new ObservationView(viewGroup.getContext());
-        return new ViewHolder(v);
+        return new ViewHolder(v, this);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        Log.d(TAG, "Element " + position + " set.");
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
+        Observation observation = dataSet.get(position);
+        double t1 = (position - 1 >= 0) ?
+                roundTemperature(dataSet.get(position - 1).getTemperature()) :
+                Double.NaN;
+        double t2 = roundTemperature(observation.getTemperature());
+        double t3 = (position + 1 < dataSet.size()) ?
+                roundTemperature(dataSet.get(position + 1).getTemperature()) :
+                Double.NaN;
 
-        double t1;
-        double t2;
-        double t3;
-
-        t2 = dataSet.get(position).getTemperature();
-        t1 = (position - 1 >= 0) ? midpoint(dataSet.get(position - 1).getTemperature(), t2) : Double.NaN;
-        t3 = (position + 1 < dataSet.size()) ? midpoint(t2, dataSet.get(position + 1).getTemperature()) : Double.NaN;
-
-        viewHolder.getView().setTemperatureRange(MINIMUM_TEMPERATURE, MAXIMUM_TEMPERATURE);
-        viewHolder.getView().setTemperature(t1, t2, t3);
+        ObservationView view = viewHolder.getView();
+        view.setObservationVisibility(showTemperature, showCervix, showMucus);
+        view.setTemperature(t1, t2, t3);
+        if (position == selectedPosition) {
+            view.setGraphColor(R.color.colorGridLine, R.color.colorAccent,
+                    R.color.colorAccentLevel2, R.color.colorAccentLevel1);
+            view.setCervixFirmnessColor(ObservationViewFormatter.getSelectedColorId(observation.getCervixFirmness()),
+                    R.color.colorAccentDark);
+            view.setCervixHeightColor(ObservationViewFormatter.getSelectedColorId(observation.getCervixHeight()),
+                    R.color.colorAccentDark);
+            view.setCervixOpennessColor(ObservationViewFormatter.getSelectedColorId(observation.getCervixOpenness()),
+                    R.color.colorAccentDark);
+            view.setMucusColor(ObservationViewFormatter.getSelectedColorId(observation.getMucus()),
+                    R.color.colorAccentDark);
+        } else {
+            view.setGraphColor(R.color.colorGridLine, R.color.colorPrimaryDark,
+                    R.color.colorShadow, R.color.colorBackground);
+            view.setCervixFirmnessColor(ObservationViewFormatter.getColorId(observation.getCervixFirmness()),
+                    R.color.colorPrimaryDark);
+            view.setCervixHeightColor(ObservationViewFormatter.getColorId(observation.getCervixHeight()),
+                    R.color.colorPrimaryDark);
+            view.setCervixOpennessColor(ObservationViewFormatter.getColorId(observation.getCervixOpenness()),
+                    R.color.colorPrimaryDark);
+            view.setMucusColor(ObservationViewFormatter.getColorId(observation.getMucus()),
+                    R.color.colorPrimaryDark);
+        }
+        view.setCervixFirmnessText(ObservationViewFormatter.getTextId(observation.getCervixFirmness()));
+        view.setCervixHeightText(ObservationViewFormatter.getTextId(observation.getCervixHeight()));
+        view.setCervixOpennessText(ObservationViewFormatter.getTextId(observation.getCervixOpenness()));
+        view.setMucusText(ObservationViewFormatter.getTextId(observation.getMucus()));
     }
 
     @Override
@@ -80,9 +124,34 @@ public class ObservationAdapter extends RecyclerView.Adapter<ObservationAdapter.
         return dataSet.size();
     }
 
-    private double midpoint(double d1, double d2) {
-        return (d1 + d2) / 2.0;
+    @Override
+    public void onItemSelected(int position, Object item) {
+        int previousSelectedPosition = selectedPosition;
+        selectedPosition = position;
+        if (previousSelectedPosition >= 0) {
+            notifyItemChanged(previousSelectedPosition);
+        }
+        if (selectedPosition >= 0) {
+            notifyItemChanged(selectedPosition);
+        }
+        notifyItemSelected(position, dataSet.get(position));
     }
 
+    public void setOnItemSelectedListener(OnItemSelectedListener listener) {
+        onItemSelectedListener = listener;
+    }
+
+    private void notifyItemSelected(int position, Observation observation) {
+        if (onItemSelectedListener != null) {
+            onItemSelectedListener.onItemSelected(position, observation);
+        }
+    }
+
+    private double roundTemperature(double temperature) {
+        if (!Double.isNaN(temperature)) {
+            temperature = ((int) (temperature * 10 + 0.5)) / 10.0f;
+        }
+        return temperature;
+    }
 }
 

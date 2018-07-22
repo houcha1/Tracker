@@ -7,6 +7,6 @@ package com.houchins.andy.tracker.model;
 public enum CervixFirmness {
     NONE,
     FIRM,
-    FIRM_SOFT,
+    MEDIUM,
     SOFT
 }

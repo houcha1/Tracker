@@ -97,7 +97,7 @@ public class Observation {
                 cervixHeight = CervixHeight.HIGH;
                 break;
             case FLAG_CERVIX_HIGH_LOW:
-                cervixHeight = CervixHeight.HIGH_LOW;
+                cervixHeight = CervixHeight.MEDIUM;
                 break;
             case FLAG_CERVIX_LOW:
                 cervixHeight = CervixHeight.LOW;
@@ -120,7 +120,7 @@ public class Observation {
                 cervixFirmness = CervixFirmness.FIRM;
                 break;
             case FLAG_CERVIX_FIRM_SOFT:
-                cervixFirmness = CervixFirmness.FIRM_SOFT;
+                cervixFirmness = CervixFirmness.MEDIUM;
                 break;
             case FLAG_CERVIX_SOFT:
                 cervixFirmness = CervixFirmness.SOFT;
@@ -143,7 +143,7 @@ public class Observation {
                 cervixOpenness = CervixOpenness.OPEN;
                 break;
             case FLAG_CERVIX_OPEN_CLOSED:
-                cervixOpenness = CervixOpenness.OPEN_CLOSED;
+                cervixOpenness = CervixOpenness.MEDIUM;
                 break;
             case FLAG_CERVIX_CLOSED:
                 cervixOpenness = CervixOpenness.CLOSED;
@@ -228,7 +228,7 @@ public class Observation {
             case HIGH:
                 flags = FLAG_CERVIX_HIGH;
                 break;
-            case HIGH_LOW:
+            case MEDIUM:
                 flags = FLAG_CERVIX_HIGH_LOW;
                 break;
             case LOW:
@@ -248,7 +248,7 @@ public class Observation {
             case FIRM:
                 flags = FLAG_CERVIX_FIRM;
                 break;
-            case FIRM_SOFT:
+            case MEDIUM:
                 flags = FLAG_CERVIX_FIRM_SOFT;
                 break;
             case SOFT:
@@ -268,7 +268,7 @@ public class Observation {
             case OPEN:
                 flags = FLAG_CERVIX_OPEN;
                 break;
-            case OPEN_CLOSED:
+            case MEDIUM:
                 flags = FLAG_CERVIX_OPEN_CLOSED;
                 break;
             case CLOSED:

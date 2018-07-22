@@ -14,12 +14,15 @@
 
     <!-- observations -->
     <dimen name="observation_width">20dp</dimen>
-    <dimen name="observation_height">20dp</dimen>
-    <dimen name="observation_weight">1</dimen>
+    <dimen name="observation_height">30dp</dimen>
+    <dimen name="observation_weight">0</dimen>
 
+    <!-- graph dimensions -->
     <dimen name="default_line_width">2dp</dimen>
     <dimen name="default_circle_radius">4dp</dimen>
     <dimen name="default_shadow_width">2dp</dimen>
     <dimen name="default_shadow_offset_x">0dp</dimen>
     <dimen name="default_shadow_offset_y">1dp</dimen>
+    <dimen name="grid_line_width">1dp</dimen>
+    <dimen name="half_grid_line_width">0.5dp</dimen>
 </resources>

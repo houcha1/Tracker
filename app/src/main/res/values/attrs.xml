@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="LineGraphSegmentView">
+    <declare-styleable name="TemperatureGraphSegmentView">
         <attr name="lineColor" format="color" />
         <attr name="lineWidth" format="dimension" />
         <attr name="circleRadius" format="dimension" />
@@ -8,9 +8,8 @@
         <attr name="shadowWidth" format="dimension" />
         <attr name="shadowOffsetX" format="dimension" />
         <attr name="shadowOffsetY" format="dimension" />
-        <attr name="segmentStart" format="float"/>
-        <attr name="segmentMiddle" format="float"/>
-        <attr name="segmentEnd" format="float"/>
+        <attr name="gridColor" format="color" />
+        <attr name="gridWidth" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="ObservationView">

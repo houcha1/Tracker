@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorTransparent">#00000000</color>
     <color name="colorBackground">#FFFFFF</color>
     <color name="colorShadow">#f2f2f2</color>
     <color name="colorPrimary">#74b384</color>
     <color name="colorPrimaryDark">#3a5942</color>
     <color name="colorAccent">#a836b3</color>
+    <color name="colorAccentDark">#541b59</color>
     <color name="colorAlternate">#3689b3</color>
 
-    <color name="colorAccentLevel0">#00000000</color>
+    <color name="colorPrimaryLevel0">#FFFFFF</color>
+    <color name="colorPrimaryLevel1">#e9f5eb</color>
+    <color name="colorPrimaryLevel2">#d3ebd9</color>
+    <color name="colorPrimaryLevel3">#bddec4</color>
+    <color name="colorPrimaryLevel4">#a9d4b4</color>
+    <color name="colorPrimaryLevel5">#95c7a2</color>
+    <color name="colorPrimaryLevel6">#84bd92</color>
+    <color name="colorPrimaryLevel7">#74b384</color>
+
+    <color name="colorAccentLevel0">#FFFFFF</color>
     <color name="colorAccentLevel1">#edd8f0</color>
     <color name="colorAccentLevel2">#e4bae8</color>
     <color name="colorAccentLevel3">#d89bde</color>
@@ -16,7 +27,7 @@
     <color name="colorAccentLevel6">#b34bbd</color>
     <color name="colorAccentLevel7">#a836b3</color>
 
-    <color name="colorAlternateLevel0">#00000000</color>
+    <color name="colorAlternateLevel0">#FFFFFF</color>
     <color name="colorAlternateLevel1">#d8e8f0</color>
     <color name="colorAlternateLevel2">#bad9e8</color>
     <color name="colorAlternateLevel3">#9bc8de</color>
@@ -24,4 +35,8 @@
     <color name="colorAlternateLevel5">#65a8c9</color>
     <color name="colorAlternateLevel6">#4b97bd</color>
     <color name="colorAlternateLevel7">#3689b3</color>
+
+    <color name="colorGridLine">#b3b3b3</color>
+    <color name="colorGridLineSelected">#000000</color>
+
 </resources>
