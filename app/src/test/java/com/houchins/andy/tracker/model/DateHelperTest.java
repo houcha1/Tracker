@@ -14,7 +14,7 @@ public class DateHelperTest {
 
     @Test
     public void testGetDays() {
-        long days = DateHelper.getDays(1981, 7, 31);
+        long days = DateHelper.getDaysSinceEpoch(1981, 7, 31);
         Date d1 = DateHelper.getDate(1981, 7, 31);
         Date d2 = DateHelper.getDate((int) days);
         System.out.println(days);

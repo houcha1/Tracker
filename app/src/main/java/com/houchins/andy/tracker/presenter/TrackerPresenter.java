@@ -11,7 +11,6 @@ import android.view.View;
 
 import com.houchins.andy.tracker.R;
 import com.houchins.andy.tracker.activity.EditObservationActivity;
-import com.houchins.andy.tracker.model.Observation;
 import com.houchins.andy.tracker.store.IObservationStore;
 import com.houchins.andy.tracker.view.ObservationAdapter;
 import com.houchins.andy.tracker.view.OnItemSelectedListener;
@@ -23,6 +22,7 @@ public class TrackerPresenter implements IPresenter, OnItemSelectedListener {
     private RecyclerView recyclerView;
     private ObservationAdapter adapter;
     boolean editInProgress = false;
+    private int selectedIndex = -1;
 
     public TrackerPresenter(IObservationStore observationStore) {
         this.observationStore = observationStore;
@@ -37,18 +37,35 @@ public class TrackerPresenter implements IPresenter, OnItemSelectedListener {
         return view;
     }
 
+    public void onResume() {
+        observationStore.initialize();
+        initializeAdapter();
+        editInProgress = false;
+    }
+
     @Override
     public void onItemSelected(int position, Object item) {
-        startEdit(position);
+        selectedIndex = position;
+    }
+
+    public void editSelectedItem() {
+        if (selectedIndex >= 0) {
+            startEdit(selectedIndex);
+        }
     }
 
     private void initialize(Context context) {
         recyclerView = view.findViewById(R.id.tracker_recycler_view);
-        adapter = new ObservationAdapter(observationStore.getObservations(), true, true, true);
-        adapter.setOnItemSelectedListener(this);
-        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(
                 context, LinearLayoutManager.HORIZONTAL, false));
+    }
+
+    private void initializeAdapter() {
+        adapter = new ObservationAdapter(observationStore.getObservations(),
+                selectedIndex,
+                true, true, true);
+        adapter.setOnItemSelectedListener(this);
+        recyclerView.setAdapter(adapter);
     }
 
     private void startEdit(int position) {
@@ -57,9 +74,9 @@ public class TrackerPresenter implements IPresenter, OnItemSelectedListener {
             editInProgress = true;
             Activity activity = (Activity) view.getContext();
             Intent intent = new Intent(activity, EditObservationActivity.class);
-            intent.putExtra(EditObservationActivity.INTENT_OBSERVATION, position);
+            intent.putExtra(EditObservationActivity.INTENT_OBSERVATION,
+                    adapter.getObservation(position).getDaysSinceEpoch());
             activity.startActivity(intent);
-            // TODO: add observation to the intent
         }
     }
 }

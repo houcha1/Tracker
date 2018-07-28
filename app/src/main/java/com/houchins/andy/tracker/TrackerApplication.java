@@ -29,7 +29,9 @@ public class TrackerApplication extends Application implements IStoreProvider {
 
     @Override
     public IObservationStore getObservationStore() {
-        return new ObservationStore(observationModel);
+        ObservationStore store = new ObservationStore(observationModel);
+        store.initialize();
+        return store;
     }
 
     private void createModels() {

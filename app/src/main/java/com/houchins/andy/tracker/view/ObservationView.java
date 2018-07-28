@@ -13,7 +13,6 @@ import com.houchins.andy.tracker.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class ObservationView extends FrameLayout {
     private static final double DEFAULT_TEMPERATURE = Double.NaN;
@@ -101,8 +100,7 @@ public class ObservationView extends FrameLayout {
         this.previousTemperature = previousTemperature;
         this.currentTemperature = currentTemperature;
         this.nextTemperature = nextTemperature;
-        temperatureView.setText(String.format(Locale.getDefault(),
-                getResources().getString(R.string.temperature_format), currentTemperature));
+        temperatureView.setText(ObservationViewFormatter.getTemperatureText(getResources(), currentTemperature));
         updateTemperatureGraph();
     }
 

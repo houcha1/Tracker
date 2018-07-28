@@ -1,17 +1,20 @@
 package com.houchins.andy.tracker.store;
 
 import android.content.Context;
+import android.util.SparseArray;
 
 import com.houchins.andy.tracker.model.Observation;
-
-import java.util.List;
 
 public interface IObservationStore {
     void setListener(IObservationStoreListener listener);
 
     void initialize();
 
-    List<Observation> getObservations();
+    SparseArray<Observation> getObservations();
+
+    Observation getObservation(int daysSinceEpoch);
+
+    void saveObservation(Observation observation);
 
     boolean exportData(Context context);
 }

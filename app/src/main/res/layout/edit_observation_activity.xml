@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="Temperature" />
+            android:text="@string/temperature_label" />
 
         <EditText
             android:id="@+id/temperature_value"
@@ -43,16 +43,132 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="Cervix" />
+            android:text="@string/cervix_label" />
 
         <LinearLayout
-            android:id="@+id/cervix_value"
+            android:id="@+id/cervix_texture_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/cervix_label"
             android:layout_centerHorizontal="true"
             android:orientation="horizontal">
 
+            <ToggleButton
+                android:id="@+id/cervix_texture_firm"
+                android:layout_width="@dimen/edit_observation_width"
+                android:layout_height="@dimen/edit_observation_height"
+                android:background="@drawable/edit_observation_background"
+                android:onClick="onClick"
+                android:text="@string/cervix_texture_firm"
+                android:textColor="@color/edit_observation_text"
+                android:textOff="@string/cervix_texture_firm"
+                android:textOn="@string/cervix_texture_firm" />
+
+            <ToggleButton
+                android:id="@+id/cervix_texture_medium"
+                android:layout_width="@dimen/edit_observation_width"
+                android:layout_height="@dimen/edit_observation_height"
+                android:background="@drawable/edit_observation_background"
+                android:onClick="onClick"
+                android:text="@string/cervix_texture_medium"
+                android:textColor="@color/edit_observation_text"
+                android:textOff="@string/cervix_texture_medium"
+                android:textOn="@string/cervix_texture_medium" />
+
+            <ToggleButton
+                android:id="@+id/cervix_texture_soft"
+                android:layout_width="@dimen/edit_observation_width"
+                android:layout_height="@dimen/edit_observation_height"
+                android:background="@drawable/edit_observation_background"
+                android:onClick="onClick"
+                android:text="@string/cervix_texture_soft"
+                android:textColor="@color/edit_observation_text"
+                android:textOff="@string/cervix_texture_soft"
+                android:textOn="@string/cervix_texture_soft" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/cervix_height_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cervix_texture_value"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+            <ToggleButton
+                android:id="@+id/cervix_height_low"
+                android:layout_width="@dimen/edit_observation_width"
+                android:layout_height="@dimen/edit_observation_height"
+                android:background="@drawable/edit_observation_background"
+                android:onClick="onClick"
+                android:text="@string/cervix_height_low"
+                android:textColor="@color/edit_observation_text"
+                android:textOff="@string/cervix_height_low"
+                android:textOn="@string/cervix_height_low" />
+
+            <ToggleButton
+                android:id="@+id/cervix_height_medium"
+                android:layout_width="@dimen/edit_observation_width"
+                android:layout_height="@dimen/edit_observation_height"
+                android:background="@drawable/edit_observation_background"
+                android:onClick="onClick"
+                android:text="@string/cervix_height_medium"
+                android:textColor="@color/edit_observation_text"
+                android:textOff="@string/cervix_height_medium"
+                android:textOn="@string/cervix_height_medium" />
+
+            <ToggleButton
+                android:id="@+id/cervix_height_high"
+                android:layout_width="@dimen/edit_observation_width"
+                android:layout_height="@dimen/edit_observation_height"
+                android:background="@drawable/edit_observation_background"
+                android:onClick="onClick"
+                android:text="@string/cervix_height_high"
+                android:textColor="@color/edit_observation_text"
+                android:textOff="@string/cervix_height_high"
+                android:textOn="@string/cervix_height_high" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/cervix_shape_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cervix_height_value"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+            <ToggleButton
+                android:id="@+id/cervix_shape_closed"
+                android:layout_width="@dimen/edit_observation_width"
+                android:layout_height="@dimen/edit_observation_height"
+                android:background="@drawable/edit_observation_background"
+                android:onClick="onClick"
+                android:text="@string/cervix_shape_closed"
+                android:textColor="@color/edit_observation_text"
+                android:textOff="@string/cervix_shape_closed"
+                android:textOn="@string/cervix_shape_closed" />
+
+            <ToggleButton
+                android:id="@+id/cervix_shape_medium"
+                android:layout_width="@dimen/edit_observation_width"
+                android:layout_height="@dimen/edit_observation_height"
+                android:background="@drawable/edit_observation_background"
+                android:onClick="onClick"
+                android:text="@string/cervix_shape_medium"
+                android:textColor="@color/edit_observation_text"
+                android:textOff="@string/cervix_shape_medium"
+                android:textOn="@string/cervix_shape_medium" />
+
+            <ToggleButton
+                android:id="@+id/cervix_shape_open"
+                android:layout_width="@dimen/edit_observation_width"
+                android:layout_height="@dimen/edit_observation_height"
+                android:background="@drawable/edit_observation_background"
+                android:onClick="onClick"
+                android:text="@string/cervix_shape_open"
+                android:textColor="@color/edit_observation_text"
+                android:textOff="@string/cervix_shape_open"
+                android:textOn="@string/cervix_shape_open" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -70,7 +186,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="Mucus" />
+            android:text="@string/mucus_label" />
 
         <LinearLayout
             android:id="@+id/mucus_value"

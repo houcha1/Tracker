@@ -3,6 +3,7 @@ package com.houchins.andy.tracker.store;
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
+import android.util.SparseArray;
 
 import com.houchins.andy.tracker.data.ObservationRecord;
 import com.houchins.andy.tracker.dataconverter.CsvConverter;
@@ -16,7 +17,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -24,9 +24,9 @@ import java.util.TimeZone;
 
 public class ObservationStore implements IObservationStore, IObservationModelListener {
     private static final String LOG_TAG = "ObservationStore";
-
     private IObservationModel observationModel;
     private IObservationStoreListener listener;
+    private SparseArray<Observation> observations;
 
     /**
      * Creates the observation store
@@ -44,7 +44,10 @@ public class ObservationStore implements IObservationStore, IObservationModelLis
 
     @Override
     public void initialize() {
-        observationModel.initialize(this);
+        if (!observationModel.isInitialized()) {
+            observationModel.initialize(this);
+        }
+        initializeObservationsArray();
     }
 
     @Override
@@ -58,17 +61,52 @@ public class ObservationStore implements IObservationStore, IObservationModelLis
      * @return observations
      */
     @Override
-    public List<Observation> getObservations() {
-        List<Observation> observations = new ArrayList<>();
+    public SparseArray<Observation> getObservations() {
+        SparseArray<Observation> observationsCopy = new SparseArray<>();
+        observationsCopy = observations.clone();
+        return observationsCopy;
+    }
+
+    /**
+     * initializes the local array of observations
+     */
+    private void initializeObservationsArray() {
+        observations = new SparseArray<>();
+        Observation observation;
         if (observationModel != null) {
             List<ObservationRecord> observationRecords = observationModel.getObservationRecords();
             if (observationRecords != null) {
                 for (ObservationRecord observationRecord : observationRecords) {
-                    observations.add(ObservationConverter.convert(observationRecord));
+                    observation = ObservationConverter.convert(observationRecord);
+                    observations.put(observation.getDaysSinceEpoch(), observation);
                 }
             }
         }
-        return observations;
+    }
+
+    /**
+     * gets an observation for the supplied day;
+     *
+     * @param daysSinceEpoch day of the observation (since unix epoch)
+     * @return observation; new observation if no stored observation exists
+     */
+    public Observation getObservation(int daysSinceEpoch) {
+        Observation observation;
+        if (observations.indexOfKey(daysSinceEpoch) >= 0) {
+            observation = observations.get(daysSinceEpoch);
+        } else {
+            observation = new Observation();
+            observation.setDaysSinceEpoch(daysSinceEpoch);
+        }
+        return observation;
+    }
+
+    @Override
+    public void saveObservation(Observation observation) {
+        ObservationRecord record =
+                observationModel.getObservationRecord(observation.getDaysSinceEpoch());
+        ObservationConverter.fillRecord(record, observation);
+        record.save();
     }
 
     /**

@@ -3,13 +3,15 @@ package com.houchins.andy.tracker.view;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.houchins.andy.tracker.R;
+import com.houchins.andy.tracker.model.DateHelper;
 import com.houchins.andy.tracker.model.Observation;
 
-import java.util.List;
+import static com.houchins.andy.tracker.model.Observation.INVALID_TEMPERATURE;
 
 /**
  * Provide views to RecyclerView with data from mDataSet.
@@ -17,7 +19,8 @@ import java.util.List;
 public class ObservationAdapter extends RecyclerView.Adapter<ObservationAdapter.ViewHolder> implements OnItemSelectedListener {
     private static final String LOG_TAG = "ObservationAdapter";
 
-    private List<Observation> dataSet;
+    private SparseArray<Observation> dataSet;
+    private int dataSetCount;
     private OnItemSelectedListener onItemSelectedListener;
     private boolean showTemperature;
     private boolean showCervix;
@@ -55,16 +58,20 @@ public class ObservationAdapter extends RecyclerView.Adapter<ObservationAdapter.
     /**
      * Initialize the data set of the Adapter.
      *
-     * @param dataSet         the data to populate views to be used by RecyclerView.
-     * @param showTemperature show temperature graph
-     * @param showCervix      show cervix observations
-     * @param showMucus       show mucus observations
+     * @param dataSet          the data to populate views to be used by RecyclerView.
+     * @param selectedPosition the initially selected position; less thatn zero for no selection
+     * @param showTemperature  show temperature graph
+     * @param showCervix       show cervix observations
+     * @param showMucus        show mucus observations
      */
-    public ObservationAdapter(List<Observation> dataSet, boolean showTemperature, boolean showCervix, boolean showMucus) {
+    public ObservationAdapter(SparseArray<Observation> dataSet, int selectedPosition,
+                              boolean showTemperature, boolean showCervix, boolean showMucus) {
         this.dataSet = dataSet;
         this.showTemperature = showTemperature;
         this.showCervix = showCervix;
         this.showMucus = showMucus;
+        this.selectedPosition = selectedPosition;
+        calculateDataSetCount();
     }
 
     // Create new views (invoked by the layout manager)
@@ -78,40 +85,25 @@ public class ObservationAdapter extends RecyclerView.Adapter<ObservationAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
-        Observation observation = dataSet.get(position);
-        double t1 = (position - 1 >= 0) ?
-                roundTemperature(dataSet.get(position - 1).getTemperature()) :
-                Double.NaN;
-        double t2 = roundTemperature(observation.getTemperature());
-        double t3 = (position + 1 < dataSet.size()) ?
-                roundTemperature(dataSet.get(position + 1).getTemperature()) :
-                Double.NaN;
 
+        // Get nearby observations
+        Observation observation = getObservation(position);
+        Observation previousObservation = getObservation(position - 1);
+        Observation nextObservation = getObservation(position + 1);
+
+        // calculate nearby temperatures
+        double t1 = roundTemperature(previousObservation.getTemperature());
+        double t2 = roundTemperature(observation.getTemperature());
+        double t3 = roundTemperature(nextObservation.getTemperature());
+
+        // Update views
         ObservationView view = viewHolder.getView();
         view.setObservationVisibility(showTemperature, showCervix, showMucus);
         view.setTemperature(t1, t2, t3);
         if (position == selectedPosition) {
-            view.setGraphColor(R.color.colorGridLine, R.color.colorAccent,
-                    R.color.colorAccentLevel2, R.color.colorAccentLevel1);
-            view.setCervixTextureColor(ObservationViewFormatter.getSelectedColorId(observation.getCervixTexture()),
-                    R.color.colorAccentDark);
-            view.setCervixHeightColor(ObservationViewFormatter.getSelectedColorId(observation.getCervixHeight()),
-                    R.color.colorAccentDark);
-            view.setCervixShapeColor(ObservationViewFormatter.getSelectedColorId(observation.getCervixShape()),
-                    R.color.colorAccentDark);
-            view.setMucusColor(ObservationViewFormatter.getSelectedColorId(observation.getMucus()),
-                    R.color.colorAccentDark);
+            setViewSelected(observation, view);
         } else {
-            view.setGraphColor(R.color.colorGridLine, R.color.colorPrimaryDark,
-                    R.color.colorShadow, R.color.colorBackground);
-            view.setCervixTextureColor(ObservationViewFormatter.getColorId(observation.getCervixTexture()),
-                    R.color.colorPrimaryDark);
-            view.setCervixHeightColor(ObservationViewFormatter.getColorId(observation.getCervixHeight()),
-                    R.color.colorPrimaryDark);
-            view.setCervixShapeColor(ObservationViewFormatter.getColorId(observation.getCervixShape()),
-                    R.color.colorPrimaryDark);
-            view.setMucusColor(ObservationViewFormatter.getColorId(observation.getMucus()),
-                    R.color.colorPrimaryDark);
+            setViewUnselected(observation, view);
         }
         view.setCervixTextureText(ObservationViewFormatter.getTextId(observation.getCervixTexture()));
         view.setCervixHeightText(ObservationViewFormatter.getTextId(observation.getCervixHeight()));
@@ -119,9 +111,35 @@ public class ObservationAdapter extends RecyclerView.Adapter<ObservationAdapter.
         view.setMucusText(ObservationViewFormatter.getTextId(observation.getMucus()));
     }
 
+    private void setViewUnselected(Observation observation, ObservationView view) {
+        view.setGraphColor(R.color.colorGridLine, R.color.colorPrimaryDark,
+                R.color.colorShadow, R.color.colorBackground);
+        view.setCervixTextureColor(ObservationViewFormatter.getColorId(observation.getCervixTexture()),
+                R.color.colorPrimaryDark);
+        view.setCervixHeightColor(ObservationViewFormatter.getColorId(observation.getCervixHeight()),
+                R.color.colorPrimaryDark);
+        view.setCervixShapeColor(ObservationViewFormatter.getColorId(observation.getCervixShape()),
+                R.color.colorPrimaryDark);
+        view.setMucusColor(ObservationViewFormatter.getColorId(observation.getMucus()),
+                R.color.colorPrimaryDark);
+    }
+
+    private void setViewSelected(Observation observation, ObservationView view) {
+        view.setGraphColor(R.color.colorGridLine, R.color.colorAccent,
+                R.color.colorAccentLevel2, R.color.colorAccentLevel1);
+        view.setCervixTextureColor(ObservationViewFormatter.getSelectedColorId(observation.getCervixTexture()),
+                R.color.colorAccentDark);
+        view.setCervixHeightColor(ObservationViewFormatter.getSelectedColorId(observation.getCervixHeight()),
+                R.color.colorAccentDark);
+        view.setCervixShapeColor(ObservationViewFormatter.getSelectedColorId(observation.getCervixShape()),
+                R.color.colorAccentDark);
+        view.setMucusColor(ObservationViewFormatter.getSelectedColorId(observation.getMucus()),
+                R.color.colorAccentDark);
+    }
+
     @Override
     public int getItemCount() {
-        return dataSet.size();
+        return dataSetCount;
     }
 
     @Override
@@ -148,10 +166,32 @@ public class ObservationAdapter extends RecyclerView.Adapter<ObservationAdapter.
     }
 
     private double roundTemperature(double temperature) {
-        if (!Double.isNaN(temperature)) {
+        if (!Double.isNaN(temperature) && (temperature != INVALID_TEMPERATURE)) {
             temperature = ((int) (temperature * 10 + 0.5)) / 10.0f;
+        } else {
+            temperature = Double.NaN;
         }
         return temperature;
+    }
+
+    private void calculateDataSetCount() {
+        dataSetCount = 1;
+        if (dataSet.size() > 1) {
+            dataSetCount += dataSet.get(dataSet.keyAt(dataSet.size() - 1)).getDaysSinceEpoch() -
+                    dataSet.get(dataSet.keyAt(0)).getDaysSinceEpoch();
+        }
+    }
+
+    public Observation getObservation(int position) {
+        // get the days since epoch for this position
+        int daysSinceEpoch = (dataSet.size() == 0) ? DateHelper.getDaysSinceEpoch() :
+                dataSet.get(dataSet.keyAt(0)).getDaysSinceEpoch() + position;
+        Observation observation = dataSet.get(daysSinceEpoch);
+        if (observation == null) {
+            observation = new Observation();
+            observation.setDaysSinceEpoch(daysSinceEpoch);
+        }
+        return observation;
     }
 }
 

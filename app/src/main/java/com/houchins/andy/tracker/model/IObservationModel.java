@@ -11,4 +11,6 @@ public interface IObservationModel {
     boolean isInitialized();
 
     List<ObservationRecord> getObservationRecords();
+
+    ObservationRecord getObservationRecord(int daysSinceEpoch);
 }

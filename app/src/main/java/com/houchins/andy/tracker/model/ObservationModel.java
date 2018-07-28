@@ -25,6 +25,23 @@ public class ObservationModel implements IObservationModel {
     }
 
     @Override
+    public ObservationRecord getObservationRecord(int daysSinceEpoch) {
+        ObservationRecord observationRecord = null;
+        for(ObservationRecord record : observationRecords) {
+            if(record.getDaysSinceEpoch() == daysSinceEpoch) {
+                observationRecord = record;
+            }
+        }
+        if(observationRecord == null) {
+            // Create new record
+            observationRecord = new ObservationRecord();
+            observationRecord.setDaysSinceEpoch(daysSinceEpoch);
+            observationRecords.add(observationRecord);
+        }
+        return observationRecord;
+    }
+
+    @Override
     public void initialize(IObservationModelListener listener) {
         //createData(listener);
         loadData(listener);
@@ -56,10 +73,10 @@ public class ObservationModel implements IObservationModel {
      */
     private void createDataSync(final IObservationModelListener listener) {
         ObservationRecord o;
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 20; i++) {
             o = new ObservationRecord();
             o.setFlags((int) (Math.random() * (Observation.FLAG_ALL_USED + 1)));
-            o.setDaysSinceEpoch(DateHelper.getDays(2000, 1, i));
+            o.setDaysSinceEpoch(DateHelper.getDaysSinceEpoch(2000, 1, i * 3));
             o.setTemperature(97.0f + (float) (Math.random() * 2.0));
             o.save();
         }

@@ -39,4 +39,6 @@
     <color name="colorGridLine">#b3b3b3</color>
     <color name="colorGridLineSelected">#000000</color>
 
+    <color name="colorActionBarItem">#FFFFFF</color>
+
 </resources>

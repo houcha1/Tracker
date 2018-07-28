@@ -1,7 +1,8 @@
 package com.houchins.andy.tracker.model;
 
+import android.annotation.SuppressLint;
+
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Represents a set of tracking observations.
@@ -41,40 +42,42 @@ public class Observation {
 
     public static final int FLAG_ALL_USED = 0x000007FF;
 
-    private Date date;
-    private Double temperature;
+    public static final double INVALID_TEMPERATURE = -1.0;
+
+    private int daysSinceEpoch;
+    private double temperature;
     private int flags;
 
     public Observation() {
         reset();
     }
 
-    public Observation(Date date, Double temperature, int flags) {
+    public Observation(int daysSinceEpoch, Double temperature, int flags) {
         reset();
-        setDate(date);
+        setDaysSinceEpoch(daysSinceEpoch);
         setTemperature(temperature);
         setFlags(flags);
     }
 
     public void reset() {
-        date = null;
-        temperature = null;
+        daysSinceEpoch = 0;
+        temperature = INVALID_TEMPERATURE;
         flags = 0;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDaysSinceEpoch(int daysSinceEpoch) {
+        this.daysSinceEpoch = daysSinceEpoch;
     }
 
-    public Date getDate() {
-        return date;
+    public int getDaysSinceEpoch() {
+        return daysSinceEpoch;
     }
 
     public void setTemperature(Double temperature) {
         this.temperature = temperature;
     }
 
-    public Double getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
@@ -216,8 +219,8 @@ public class Observation {
 
     @Override
     public String toString() {
-        SimpleDateFormat f = new SimpleDateFormat("YYYY-MM-dd");
-        return "(" + f.format(date) + ", " + temperature.toString() +
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat f = new SimpleDateFormat("YYYY-MM-dd");
+        return "(" + f.format(DateHelper.getDate(daysSinceEpoch)) + ", " + temperature +
                 ", " + getCervixTexture() + ", " + getCervixHeight() + ", " + getCervixShape() +
                 ", " + getMucus() + ", " + getFlow() + ")";
     }

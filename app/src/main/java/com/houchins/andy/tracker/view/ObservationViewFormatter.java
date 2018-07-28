@@ -1,13 +1,18 @@
 package com.houchins.andy.tracker.view;
 
+import android.content.res.Resources;
+
 import com.houchins.andy.tracker.R;
-import com.houchins.andy.tracker.model.CervixTexture;
 import com.houchins.andy.tracker.model.CervixHeight;
 import com.houchins.andy.tracker.model.CervixShape;
+import com.houchins.andy.tracker.model.CervixTexture;
 import com.houchins.andy.tracker.model.Mucus;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+
+import static com.houchins.andy.tracker.model.Observation.INVALID_TEMPERATURE;
 
 public class ObservationViewFormatter {
 
@@ -20,11 +25,11 @@ public class ObservationViewFormatter {
         CervixTextureMap.put(CervixTexture.NONE, new FormatSet(
                 R.color.colorTransparent, R.color.colorAccentLevel1, R.string.observation_none));
         CervixTextureMap.put(CervixTexture.FIRM, new FormatSet(
-                R.color.colorTransparent, R.color.colorAccentLevel1, R.string.cervix_firmness_firm));
+                R.color.colorTransparent, R.color.colorAccentLevel1, R.string.cervix_texture_firm));
         CervixTextureMap.put(CervixTexture.MEDIUM, new FormatSet(
-                R.color.colorPrimaryLevel4, R.color.colorAccentLevel4, R.string.cervix_firmness_medium));
+                R.color.colorPrimaryLevel4, R.color.colorAccentLevel4, R.string.cervix_texture_medium));
         CervixTextureMap.put(CervixTexture.SOFT, new FormatSet(
-                R.color.colorPrimaryLevel7, R.color.colorAccentLevel7, R.string.cervix_firmness_soft));
+                R.color.colorPrimaryLevel7, R.color.colorAccentLevel7, R.string.cervix_texture_soft));
 
         cervixHeightMap.put(CervixHeight.NONE, new FormatSet(
                 R.color.colorTransparent, R.color.colorAccentLevel1, R.string.observation_none));
@@ -38,11 +43,11 @@ public class ObservationViewFormatter {
         CervixShapeMap.put(CervixShape.NONE, new FormatSet(
                 R.color.colorTransparent, R.color.colorAccentLevel1, R.string.observation_none));
         CervixShapeMap.put(CervixShape.CLOSED, new FormatSet(
-                R.color.colorTransparent, R.color.colorAccentLevel1, R.string.cervix_openness_closed));
+                R.color.colorTransparent, R.color.colorAccentLevel1, R.string.cervix_shape_closed));
         CervixShapeMap.put(CervixShape.MEDIUM, new FormatSet(
-                R.color.colorPrimaryLevel4, R.color.colorAccentLevel4, R.string.cervix_openness_medium));
+                R.color.colorPrimaryLevel4, R.color.colorAccentLevel4, R.string.cervix_shape_medium));
         CervixShapeMap.put(CervixShape.OPEN, new FormatSet(
-                R.color.colorPrimaryLevel7, R.color.colorAccentLevel7, R.string.cervix_openness_open));
+                R.color.colorPrimaryLevel7, R.color.colorAccentLevel7, R.string.cervix_shape_open));
 
         mucusMap.put(Mucus.NONE, new FormatSet(
                 R.color.colorTransparent, R.color.colorAccentLevel1, R.string.observation_none));
@@ -100,6 +105,17 @@ public class ObservationViewFormatter {
 
     public static int getSelectedColorId(Mucus mucus) {
         return mucusMap.get(mucus).getSelectedColorId();
+    }
+
+    public static String getTemperatureText(Resources resources, double temperature) {
+        String temperatureText;
+        if (Double.isNaN(temperature) || (temperature == INVALID_TEMPERATURE)) {
+            temperatureText = resources.getString(R.string.observation_none);
+        } else {
+            temperatureText = String.format(Locale.getDefault(),
+                    resources.getString(R.string.temperature_format), temperature);
+        }
+        return temperatureText;
     }
 
     private static class FormatSet {

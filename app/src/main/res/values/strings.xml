@@ -5,6 +5,7 @@
 
     <!-- Menu -->
     <string name="export_data_menu_item">Export data</string>
+    <string name="edit_observation_menu_item">Edit</string>
 
     <!-- Welcome Activity -->
     <string name="welcome_title_text">Welcome</string>
@@ -16,19 +17,24 @@
     <string name="welcome_start_button_text">Start</string>
 
     <!-- Tracker Activity -->
-    
+
+    <!-- Edit Observation Activity -->
+    <string name="temperature_label">Temperature</string>
+    <string name="cervix_label">Cervix</string>
+    <string name="mucus_label">Mucus</string>
+
     <!-- Observations -->
     <string name="temperature_format">%.1f</string>
     <string name="observation_none" />
-    <string name="cervix_firmness_firm">F</string>
-    <string name="cervix_firmness_medium">M</string>
-    <string name="cervix_firmness_soft">S</string>
+    <string name="cervix_texture_firm">F</string>
+    <string name="cervix_texture_medium">M</string>
+    <string name="cervix_texture_soft">S</string>
     <string name="cervix_height_high">H</string>
     <string name="cervix_height_medium">M</string>
     <string name="cervix_height_low">L</string>
-    <string name="cervix_openness_open">O</string>
-    <string name="cervix_openness_medium">M</string>
-    <string name="cervix_openness_closed">C</string>
+    <string name="cervix_shape_open">O</string>
+    <string name="cervix_shape_medium">M</string>
+    <string name="cervix_shape_closed">C</string>
     <string name="mucus_dry">Ø</string>
     <string name="mucus_m">M</string>
     <string name="mucus_ewm">E</string>
